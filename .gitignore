@@ -1,0 +1,5 @@
+# eclipse build and configuration directories and files
+target/
+.settings/
+.project
+.classpath
