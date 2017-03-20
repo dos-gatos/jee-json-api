@@ -4,30 +4,39 @@
 	<groupId>org.dosgatos</groupId>
 	<artifactId>jee-json-api</artifactId>
 	<version>zoth</version>
+
+	<properties>
+		<javax-rs-version>2.0.1</javax-rs-version>
+		<guava-version>21.0</guava-version>
+		<junit-version>4.12</junit-version>
+		<mockito-version>1.10.19</mockito-version>
+	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>javax.ws.rs</groupId>
 			<artifactId>javax.ws.rs-api</artifactId>
-			<version>2.0.1</version>
+			<version>${javax-rs-version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
-			<version>21.0</version>
+			<version>${guava-version}</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.12</version>
+			<version>${junit-version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>javax.enterprise</groupId>
-			<artifactId>cdi-api</artifactId>
-			<version>1.2</version>
-			<scope>provided</scope>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-all</artifactId>
+			<version>${mockito-version}</version>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
+
 	<build>
 		<plugins>
 			<plugin>
