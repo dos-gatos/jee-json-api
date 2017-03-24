@@ -1,4 +1,4 @@
-package org.dosgatos.jsonapi.bullpen;
+package org.dosgatos.jsonapi;
 
 import java.util.Arrays;
 import java.util.List;
