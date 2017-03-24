@@ -10,19 +10,16 @@ import com.google.common.collect.Iterables;
 
 public class UriBuilderDecorator {
 
-	private UriBuilder uriBuilder;
 	private List<String> sorts = new ArrayList<String>();
 	
-	private UriBuilderDecorator(UriBuilder ub){
-		uriBuilder = ub;
-	}
+	private UriBuilderDecorator(){}
 	
-	public static UriBuilderDecorator start(UriBuilder ub){
-		return new UriBuilderDecorator(ub);
+	public static UriBuilderDecorator start(){
+		return new UriBuilderDecorator();
 	}
 	
 	private static String SORT_QUERY_PARAM_NAME = "sort";
-	public UriBuilder done(){
+	public UriBuilder decorate(UriBuilder uriBuilder){
 		if(!sorts.isEmpty()){
 			uriBuilder.replaceQueryParam(SORT_QUERY_PARAM_NAME, Joiner.on(",").join(sorts));
 		}

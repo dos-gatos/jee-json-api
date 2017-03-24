@@ -30,6 +30,7 @@ public class UriBuilderDecoratorTest {
 			@Override
 			public UriBuilder answer(InvocationOnMock invocation) throws Throwable {
 				Object[] args = invocation.getArguments();
+				params.remove((String)args[0]);
 				params.addAll((String)args[0], Arrays.copyOfRange(args, 1, args.length));
 				return uriBuilder;
 			}});
@@ -38,12 +39,13 @@ public class UriBuilderDecoratorTest {
 
 	@Test
 	public void testSort1() {	
-		UriBuilderDecorator test = UriBuilderDecorator.start(uriBuilder);
-		test.addSort("1");
-		test.addSort("2","3");
-		test.addSort(Arrays.asList("1","3","4"));
-		assertEquals(0, params.size());
-		test.done();
+		uriBuilder.replaceQueryParam("sort", "bad");
+		assertEquals("bad", params.get("sort").get(0));
+		UriBuilderDecorator.start().
+		addSort("1").
+		addSort("2","3").
+		addSort(Arrays.asList("1","3","4")).
+		decorate(uriBuilder);
 		assertEquals(1, params.size());
 		assertTrue(params.containsKey("sort"));
 		List<Object> sortValues = params.get("sort");
@@ -53,9 +55,9 @@ public class UriBuilderDecoratorTest {
 
 	@Test
 	public void testSort2() {	
-		UriBuilderDecorator test = UriBuilderDecorator.start(uriBuilder);
-		test.addSort();
-		test.done();
+		UriBuilderDecorator.start().
+		addSort().
+		decorate(uriBuilder);
 		assertEquals(0, params.size());
 	}
 
