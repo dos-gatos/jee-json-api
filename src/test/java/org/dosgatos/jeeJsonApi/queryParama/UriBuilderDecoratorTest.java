@@ -60,5 +60,32 @@ public class UriBuilderDecoratorTest {
 		decorate(uriBuilder);
 		assertEquals(0, params.size());
 	}
+	
+	@Test
+	public void testInclude1() {	
+		uriBuilder.replaceQueryParam("include", "bad");
+		assertEquals("bad", params.get("include").get(0));
+		UriBuilderDecorator.start().
+		addInclude("1").
+		addInclude("2","3").
+		addInclude(Arrays.asList("1","3","4")).
+		decorate(uriBuilder);
+		assertEquals(1, params.size());
+		assertTrue(params.containsKey("include"));
+		List<Object> sortValues = params.get("include");
+		assertEquals(1, sortValues.size());
+		List<String> tests = Arrays.asList(sortValues.get(0).toString().split(","));
+		assertEquals(4,tests.size());
+		assertTrue(tests.containsAll(Arrays.asList("1","2","3","4")));
+	}
+
+	@Test
+	public void testInclude2() {	
+		UriBuilderDecorator.start().
+		addInclude().
+		decorate(uriBuilder);
+		assertEquals(0, params.size());
+	}
+
 
 }
