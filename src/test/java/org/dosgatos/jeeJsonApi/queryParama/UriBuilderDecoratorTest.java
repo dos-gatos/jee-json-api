@@ -5,6 +5,8 @@ import static org.mockito.Mockito.*;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Stream;
 
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.UriBuilder;
@@ -38,7 +40,7 @@ public class UriBuilderDecoratorTest {
 	}
 
 	@Test
-	public void testSort1() {	
+	public void testSort1(){	
 		uriBuilder.replaceQueryParam("sort", "bad");
 		assertEquals("bad", params.get("sort").get(0));
 		UriBuilderDecorator.start().
@@ -54,7 +56,7 @@ public class UriBuilderDecoratorTest {
 	}
 
 	@Test
-	public void testSort2() {	
+	public void testSort2(){	
 		UriBuilderDecorator.start().
 		addSort().
 		decorate(uriBuilder);
@@ -62,7 +64,7 @@ public class UriBuilderDecoratorTest {
 	}
 	
 	@Test
-	public void testInclude1() {	
+	public void testInclude1(){	
 		uriBuilder.replaceQueryParam("include", "bad");
 		assertEquals("bad", params.get("include").get(0));
 		UriBuilderDecorator.start().
@@ -80,11 +82,40 @@ public class UriBuilderDecoratorTest {
 	}
 
 	@Test
-	public void testInclude2() {	
+	public void testInclude2(){	
 		UriBuilderDecorator.start().
 		addInclude().
 		decorate(uriBuilder);
 		assertEquals(0, params.size());
+	}
+	
+	@Test
+	public void testParams(){
+		UriBuilderDecorator.start().
+		addFields("a", "av1").
+		addFields("b", "bv1").
+		addFields("a", "av2").
+		addFilter("a", "fra").
+		addFilter("b", "frb").
+		addPageCursor("cur").
+		addPageLimit("lim").
+		addPageNumber("num").
+		addPageOffset("off").
+		addPageSize("siz").
+		decorate(uriBuilder);
+		
+		assertEquals(9, params.size());
+		assertEquals("lim", params.getFirst("page[limit]"));
+		assertEquals("num", params.getFirst("page[number]"));
+		assertEquals("off", params.getFirst("page[offset]"));
+		assertEquals("fra", params.getFirst("filter[a]"));
+		assertEquals("cur", params.getFirst("page[cursor]"));
+		assertEquals("av2", params.getFirst("fields[a]"));
+		assertEquals("frb", params.getFirst("filter[b]"));
+		assertEquals("bv1", params.getFirst("fields[b]"));
+		assertEquals("siz", params.getFirst("page[size]"));
+
+
 	}
 
 
