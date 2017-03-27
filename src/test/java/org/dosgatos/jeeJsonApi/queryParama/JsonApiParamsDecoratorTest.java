@@ -10,12 +10,12 @@ import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.UriBuilder;
 
 import org.junit.Test;
-import org.dosgatos.jsonapi.UriBuilderDecorator;
+import org.dosgatos.jsonapi.JsonApiParamsDecorator;
 import org.junit.Before;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
-public class UriBuilderDecoratorTest {
+public class JsonApiParamsDecoratorTest {
 	
 	private MultivaluedHashMap<String,Object> params;
 	private UriBuilder uriBuilder;
@@ -41,7 +41,7 @@ public class UriBuilderDecoratorTest {
 	public void testSort1(){	
 		uriBuilder.replaceQueryParam("sort", "bad");
 		assertEquals("bad", params.get("sort").get(0));
-		UriBuilderDecorator.start().
+		JsonApiParamsDecorator.start().
 		addSort("1").
 		addSort("2","3").
 		addSort(Arrays.asList("1","3","4")).
@@ -55,7 +55,7 @@ public class UriBuilderDecoratorTest {
 
 	@Test
 	public void testSort2(){	
-		UriBuilderDecorator.start().
+		JsonApiParamsDecorator.start().
 		addSort().
 		decorate(uriBuilder);
 		assertEquals(0, params.size());
@@ -65,7 +65,7 @@ public class UriBuilderDecoratorTest {
 	public void testInclude1(){	
 		uriBuilder.replaceQueryParam("include", "bad");
 		assertEquals("bad", params.get("include").get(0));
-		UriBuilderDecorator.start().
+		JsonApiParamsDecorator.start().
 		addInclude("1").
 		addInclude("2","3").
 		addInclude(Arrays.asList("1","3","4")).
@@ -81,7 +81,7 @@ public class UriBuilderDecoratorTest {
 
 	@Test
 	public void testInclude2(){	
-		UriBuilderDecorator.start().
+		JsonApiParamsDecorator.start().
 		addInclude().
 		decorate(uriBuilder);
 		assertEquals(0, params.size());
@@ -89,7 +89,7 @@ public class UriBuilderDecoratorTest {
 	
 	@Test
 	public void testParams(){
-		UriBuilderDecorator.start().
+		JsonApiParamsDecorator.start().
 		addFields("a", "av1").
 		addFields("b", "bv1").
 		addFields("a", "av2").
